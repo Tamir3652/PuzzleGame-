@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Puzzle Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="info">
+      <span>Оноо: <span id="score">0</span></span>
+      <span>Оролдлого: <span id="tries">0</span></span>
+      <button onclick="start()">Шинээр эхлэх</button>
+    </div>
+
+    <div class="main">
+      <button class="card" onclick="openCard(0)">?</button>
+      <button class="card" onclick="openCard(1)">?</button>
+      <button class="card" onclick="openCard(2)">?</button>
+      <button class="card" onclick="openCard(3)">?</button>
+      <button class="card" onclick="openCard(4)">?</button>
+      <button class="card" onclick="openCard(5)">?</button>
+      <button class="card" onclick="openCard(6)">?</button>
+      <button class="card" onclick="openCard(7)">?</button>
+      <button class="card" onclick="openCard(8)">?</button>
+      <button class="card" onclick="openCard(9)">?</button>
+      <button class="card" onclick="openCard(10)">?</button>
+      <button class="card" onclick="openCard(11)">?</button>
+      <button class="card" onclick="openCard(12)">?</button>
+      <button class="card" onclick="openCard(13)">?</button>
+      <button class="card" onclick="openCard(14)">?</button>
+      <button class="card" onclick="openCard(15)">?</button>
+    </div>
+    <p class="info" id="message"></p>
+
+    <script>
+      let values = [
+        "😀",
+        "😎",
+        "😡",
+        "🤔",
+        "😂",
+        "😍",
+        "😭",
+        "😴",
+        "😎",
+        "😴",
+        "😀",
+        "😭",
+        "😍",
+        "😂",
+        "🤔",
+        "😡",
+      ];
+
+      let matched = [];
+      let opened = [];
+      let score = 0;
+      let tries = 0;
+
+      const paintCard = (index, text, color) => {
+        let cards = document.getElementsByClassName("card");
+        cards[index].innerText = text;
+        cards[index].style.backgroundColor = color;
+      };
+
+      const countMatched = () => {
+        let total = 0;
+        for (let i = 0; i < matched.length; i++) {
+          if (matched[i] === true) {
+            total = total + 1;
+          }
+        }
+        return total;
+      };
+
+      const showInfo = () => {
+        document.getElementById("score").innerText = score;
+        document.getElementById("tries").innerText = tries;
+      };
+
+      const start = () => {
+        score = 0;
+        tries = 0;
+        opened = [];
+        matched = [];
+
+        for (let i = 0; i < values.length; i++) {
+          matched[i] = false;
+          paintCard(i, "?", "rgb(196, 196, 196)");
+        }
+
+        showInfo();
+        document.getElementById("message").innerText = "";
+      };
+
+      const closeCards = () => {
+        for (let k = 0; k < opened.length; k++) {
+          paintCard(opened[k], "?", "rgb(196, 196, 196)");
+        }
+        opened = [];
+      };
+
+      const checkPair = () => {
+        let a = opened[0];
+        let b = opened[1];
+
+        if (values[a] === values[b]) {
+          paintCard(a, values[a], "#8fe39a");
+          paintCard(b, values[b], "#8fe39a");
+          matched[a] = true;
+          matched[b] = true;
+          opened = [];
+          score++;
+          showInfo();
+
+          if (countMatched() === values.length) {
+            document.getElementById("message").innerText =
+              "Баяр хүргэе! " + tries + " оролдлогоор дуусгалаа ";
+          }
+        } else {
+          setTimeout(closeCards, 500);
+        }
+      };
+
+      const openCard = (i) => {
+        if (matched[i] === true) {
+          return;
+        }
+
+        if (opened.length === 2) {
+          return;
+        }
+
+        if (opened.length === 1 && opened[0] === i) {
+          return;
+        }
+
+        paintCard(i, values[i], "white");
+        opened.push(i);
+
+        if (opened.length === 2) {
+          tries++;
+          showInfo();
+          checkPair();
+        }
+      };
+      math.random;
+
+      start();
+    </script>
+  </body>
+</html>
