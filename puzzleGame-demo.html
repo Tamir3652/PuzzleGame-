@@ -53,11 +53,23 @@
         "🤔",
         "😡",
       ];
-
       let matched = [];
       let opened = [];
       let score = 0;
       let tries = 0;
+
+      const getRandomInt = (max) => {
+        return Math.floor(Math.random() * max);
+      };
+
+      const shuffle = () => {
+        for (let i = 0; i < 16; i++) {
+          let j = getRandomInt(16);
+          [values[i], values[j]] = [values[j], values[i]];
+        }
+      };
+
+      shuffle();
 
       const paintCard = (index, text, color) => {
         let cards = document.getElementsByClassName("card");
@@ -93,6 +105,8 @@
 
         showInfo();
         document.getElementById("message").innerText = "";
+
+        shuffle();
       };
 
       const closeCards = () => {
@@ -146,7 +160,6 @@
           checkPair();
         }
       };
-      math.random;
 
       start();
     </script>
